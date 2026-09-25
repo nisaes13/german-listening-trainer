@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Listening & Speaking Trainer</title>
+<style>
+*{box-sizing:border-box} body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f5f7;margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}.card{background:#fff;width:100%;max-width:700px;padding:36px;border-radius:28px;box-shadow:0 12px 45px rgba(0,0,0,.08)}.top{display:flex;justify-content:space-between;align-items:center;color:#777;font-size:14px;margin-bottom:20px}.mode{background:#f1f1f1;padding:7px 11px;border-radius:10px}.emoji{font-size:64px;text-align:center;margin:18px 0}.turkish{font-size:28px;font-weight:650;text-align:center;line-height:1.35;margin-bottom:28px}.section{margin:22px 0 10px;font-size:13px;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:.6px}select,input{width:100%;padding:14px;border:1px solid #ddd;border-radius:13px;background:#fff;font-size:16px;outline:none}input{font-size:19px;padding:17px}button{border:none;border-radius:13px;padding:14px 19px;font-size:16px;cursor:pointer;margin:5px}.center{text-align:center}.listen,.check,.newround{background:#111;color:#fff}.slow{background:#eee}.mic{width:100%;margin:5px 0;background:#e9efff;font-weight:600}.mic.listening{background:#ffe1e1;color:#a40000}.check,.newround{width:100%;margin:15px 0 0}.hint,#micStatus{color:#888;text-align:center;font-size:14px;margin-top:10px;min-height:20px}.divider{height:1px;background:#eee;margin:22px 0}#result{margin-top:24px;text-align:center;font-size:21px;font-weight:650}#correctAnswer{margin-top:10px;text-align:center;font-size:22px;font-weight:650}.sbox{display:none;margin-top:18px;padding:18px;border-radius:16px;background:#f6f6f6}.sscore{font-size:30px;font-weight:750;text-align:center}.slabel{text-align:center;color:#666}.sdetails{margin-top:12px;font-size:14px;line-height:1.5;color:#555}.warning{font-size:12px;color:#888;margin-top:10px;line-height:1.45}#nextButton{display:none;width:100%;margin:22px 0 0;background:#e9e9e9}.score{text-align:center;color:#777;font-size:14px;line-height:1.5;margin-top:15px}.mini{text-align:center;margin-top:16px}.mini button{background:#f1f1f1;font-size:14px}#finish{display:none;text-align:center}#finish h1{font-size:34px}#finishScore{font-size:27px;font-weight:700;margin:20px 0}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="trainer">
+    <div class="top"><div id="progress"></div><div class="mode" id="modeLabel">Akıllı Tur</div></div>
+    <div class="emoji" id="emoji"></div>
+    <div class="turkish" id="turkish"></div>
+
+    <div class="section">🎧 Listening</div>
+    <select id="voiceSelect"><option>Almanca ses yükleniyor...</option></select>
+    <div class="center"><button class="listen" onclick="speak()">🔊 Dinle</button><button class="slow" onclick="speakSlow()">🐢 Yavaş</button></div>
+    <div class="hint">Almanca cevap sen kontrol edene kadar görünmez.</div>
+
+    <div class="section">🎙️ Speaking / Recall</div>
+    <button id="micButton" class="mic" onclick="startGermanDictation()">🎙️ Almanca Söyle</button>
+    <div id="micStatus"></div>
+
+    <div class="divider"></div>
+    <input id="userAnswer" placeholder="Duyduğun veya söylediğin Almancayı yaz..." autocomplete="off">
+    <button class="check" onclick="checkAnswer()">Kontrol Et</button>
+    <div id="result"></div>
+    <div id="correctAnswer"></div>
+
+    <div class="sbox" id="speakingBox">
+      <div class="sscore" id="speakingScore"></div>
+      <div class="slabel">Yaklaşık Speaking Score</div>
+      <div class="sdetails" id="speakingDetails"></div>
+      <div class="warning">Bu puan fonem bazlı telaffuz testi değildir; tarayıcının Almanca konuşmanı hedef cümleye ne kadar yakın algıladığını ölçer.</div>
+    </div>
+
+    <button id="nextButton" onclick="nextCard()">Sonraki →</button>
+    <div class="score" id="score"></div>
+    <div class="mini"><button onclick="showStats()">📊 İstatistikler</button></div>
+  </div>
+
+  <div id="finish">
+    <div style="font-size:70px">🎉</div>
+    <h1>Tur tamamlandı</h1>
+    <div id="finishScore"></div>
+    <div id="finishMessage"></div>
+    <button class="newround" onclick="startNewRound()">Yeni 10 Kartlık Tur</button>
+    <div class="mini"><button onclick="showStats()">📊 İstatistikler</button></div>
+  </div>
+</div>
+
+<script src="cards.js"></script>
+<script>
+const STATS_KEY="germanListeningTrainerStats_v1";
+let sessionCards=[],missedCards=[],reviewCards=[],currentIndex=0,correctCount=0,reviewMode=false,answered=false;
+let germanVoices=[],recognition=null,isListening=false,lastSpeechConfidence=null,lastSpeechTranscript="",usedMicrophoneForCard=false;
+
+function getStats(){try{return JSON.parse(localStorage.getItem(STATS_KEY))||{}}catch{return {}}}
+function saveStats(s){localStorage.setItem(STATS_KEY,JSON.stringify(s))}
+function ensureCardStats(card){const all=getStats();if(!all[card.id]){all[card.id]={seen:0,correct:0,wrong:0,speakingAttempts:0,speakingScoreSum:0,lastSeen:null};saveStats(all)}}
+function recordResult(card,isCorrect,speakingScore=null){const all=getStats();if(!all[card.id])all[card.id]={seen:0,correct:0,wrong:0,speakingAttempts:0,speakingScoreSum:0,lastSeen:null};const s=all[card.id];s.seen++;isCorrect?s.correct++:s.wrong++;if(speakingScore!==null){s.speakingAttempts++;s.speakingScoreSum+=speakingScore}s.lastSeen=new Date().toISOString();saveStats(all)}
+
+function cardPriority(card){const s=getStats()[card.id];if(!s||s.seen===0)return 6;const acc=s.correct/Math.max(1,s.seen);let w=1+(1-acc)*5+Math.min(s.wrong,5)*.5;if(s.lastSeen){const days=(Date.now()-new Date(s.lastSeen).getTime())/86400000;w+=Math.min(days/7,2)}return Math.max(.5,w)}
+function weightedSample(items,count){const pool=[...items],out=[];while(pool.length&&out.length<count){const weights=pool.map(cardPriority),total=weights.reduce((a,b)=>a+b,0);let r=Math.random()*total,idx=0;for(let i=0;i<pool.length;i++){r-=weights[i];if(r<=0){idx=i;break}}out.push(pool.splice(idx,1)[0])}return out}
+
+function startNewRound(){allCards.forEach(ensureCardStats);sessionCards=weightedSample(allCards,Math.min(10,allCards.length));missedCards=[];reviewCards=[];currentIndex=0;correctCount=0;reviewMode=false;answered=false;document.getElementById("trainer").style.display="block";document.getElementById("finish").style.display="none";showCard()}
+function getCurrentCard(){return reviewMode?reviewCards[currentIndex]:sessionCards[currentIndex]}
+
+function loadVoices(){germanVoices=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.toLowerCase().startsWith("de"));const sel=document.getElementById("voiceSelect");sel.innerHTML="";germanVoices.forEach((v,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`${v.name} — ${v.lang}`;sel.appendChild(o)});const anna=germanVoices.findIndex(v=>v.name.toLowerCase().includes("anna"));if(anna>=0)sel.value=anna}
+speechSynthesis.onvoiceschanged=loadVoices;loadVoices();setTimeout(loadVoices,500);
+function playGerman(rate){speechSynthesis.cancel();const c=getCurrentCard(),u=new SpeechSynthesisUtterance(c.german),i=Number(document.getElementById("voiceSelect").value);if(germanVoices[i])u.voice=germanVoices[i];u.lang="de-DE";u.rate=rate;u.pitch=1;u.volume=1;speechSynthesis.speak(u)}
+function speak(){playGerman(.90)} function speakSlow(){playGerman(.68)}
+
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SpeechRecognition){recognition=new SpeechRecognition();recognition.lang="de-DE";recognition.continuous=false;recognition.interimResults=true;recognition.maxAlternatives=1;
+recognition.onstart=()=>{isListening=true;usedMicrophoneForCard=true;lastSpeechTranscript="";lastSpeechConfidence=null;const b=document.getElementById("micButton");b.classList.add("listening");b.innerText="🔴 Dinliyorum...";document.getElementById("micStatus").innerText="Almanca konuş. Bitirince kısa bir süre bekle."};
+recognition.onresult=e=>{let t="",conf=null;for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];t+=r[0].transcript;if(r.isFinal&&r[0].confidence>0)conf=r[0].confidence}lastSpeechTranscript=t;if(conf!==null)lastSpeechConfidence=conf;document.getElementById("userAnswer").value=t};
+recognition.onerror=e=>{let m="Mikrofon hatası oluştu.";if(e.error==="not-allowed")m="Mikrofon izni verilmedi.";else if(e.error==="no-speech")m="Ses algılanmadı. Tekrar deneyebilirsin.";else if(e.error==="network")m="Speech recognition servisine ulaşılamadı.";document.getElementById("micStatus").innerText=m};
+recognition.onend=()=>{isListening=false;const b=document.getElementById("micButton");b.classList.remove("listening");b.innerText="🎙️ Almanca Söyle";if(lastSpeechTranscript.trim())document.getElementById("micStatus").innerText="Söylediğini Almanca olarak yazıya çevirdim."}}
+function startGermanDictation(){if(!SpeechRecognition){alert("Bu tarayıcı speech recognition özelliğini desteklemiyor.");return}if(answered)return;if(isListening){recognition.stop();return}document.getElementById("userAnswer").value="";document.getElementById("micStatus").innerText="";recognition.lang="de-DE";try{recognition.start()}catch(e){console.log(e)}}
+
+function normalize(t){return t.toLowerCase().trim().replace(/[.,!?;:'"]/g,"").replace(/-/g," ").replace(/\s+/g," ")}
+function levenshtein(a,b){const m=[];for(let i=0;i<=b.length;i++)m[i]=[i];for(let j=0;j<=a.length;j++)m[0][j]=j;for(let i=1;i<=b.length;i++)for(let j=1;j<=a.length;j++)m[i][j]=b.charAt(i-1)===a.charAt(j-1)?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);return m[b.length][a.length]}
+function similarity(u,c){const a=normalize(u),b=normalize(c);if(a===b)return 100;const L=Math.max(a.length,b.length);if(!L)return 100;return Math.max(0,Math.round((1-levenshtein(a,b)/L)*100))}
+function wordMatch(u,c){const uw=normalize(u).split(" "),cw=normalize(c).split(" ");let n=0;cw.forEach(w=>{if(uw.includes(w))n++});return Math.round(n/cw.length*100)}
+function speakingScore(t,c){const s=similarity(t,c),w=wordMatch(t,c);let x=lastSpeechConfidence!==null?Math.round(s*.55+w*.25+Math.round(lastSpeechConfidence*100)*.20):Math.round(s*.70+w*.30);return Math.max(0,Math.min(100,x))}
+function showSpeakingScore(t,c){const score=speakingScore(t,c),s=similarity(t,c),w=wordMatch(t,c);document.getElementById("speakingBox").style.display="block";document.getElementById("speakingScore").innerText=`${score} / 100`;let note=score>=90?"Tarayıcı söylediğini hedef cümleye çok yakın algıladı.":score>=75?"Gayet iyi. Birkaç kelime veya ses yeniden denenebilir.":score>=55?"Cümlenin önemli kısmı anlaşıldı ama tekrar faydalı olur.":"Speech recognition hedef cümleyi yeterince net algılamadı.";let d=`Cümle benzerliği: ${s}% • Kelime eşleşmesi: ${w}%`;if(lastSpeechConfidence!==null)d+=` • Ses tanıma güveni: ${Math.round(lastSpeechConfidence*100)}%`;document.getElementById("speakingDetails").innerHTML=`${note}<br><br>${d}`;return score}
+
+function showCard(){answered=false;usedMicrophoneForCard=false;lastSpeechTranscript="";lastSpeechConfidence=null;const c=getCurrentCard();if(!c){finishRound();return}const total=reviewMode?reviewCards.length:sessionCards.length;document.getElementById("progress").innerText=`${currentIndex+1} / ${total}`;document.getElementById("modeLabel").innerText=reviewMode?"🔁 Yanlışları Tekrar":"Akıllı Tur";document.getElementById("emoji").innerText=c.emoji||"🧠";document.getElementById("turkish").innerText=c.turkish;document.getElementById("userAnswer").value="";document.getElementById("result").innerText="";document.getElementById("correctAnswer").innerText="";document.getElementById("micStatus").innerText="";document.getElementById("speakingBox").style.display="none";document.getElementById("nextButton").style.display="none";updateScore()}
+function updateScore(){document.getElementById("score").innerText=reviewMode?`İlk tur skoru: ${correctCount} / ${sessionCards.length}`:`Bu tur: ${correctCount} doğru • ${missedCards.length} tekrar kartı`}
+function checkAnswer(){if(answered)return;const a=document.getElementById("userAnswer").value;if(!a.trim()){document.getElementById("result").innerText="Önce duyduğunu yaz veya Almanca söyle 🙂";return}answered=true;const c=getCurrentCard(),ok=normalize(a)===normalize(c.german);if(ok){document.getElementById("result").innerText="✅ Doğru!";if(!reviewMode)correctCount++}else{document.getElementById("result").innerText=similarity(a,c.german)>=88?"🟡 Çok yakın!":"❌ Henüz değil.";if(!reviewMode&&!missedCards.some(x=>x.id===c.id))missedCards.push(c)}document.getElementById("correctAnswer").innerText=c.german;let sp=null;if(usedMicrophoneForCard&&a.trim())sp=showSpeakingScore(a,c.german);if(!reviewMode)recordResult(c,ok,sp);document.getElementById("nextButton").style.display="block";updateScore()}
+function nextCard(){currentIndex++;if(!reviewMode&&currentIndex>=sessionCards.length){if(missedCards.length){reviewMode=true;reviewCards=[...missedCards];currentIndex=0;showCard();return}finishRound();return}if(reviewMode&&currentIndex>=reviewCards.length){finishRound();return}showCard()}
+function finishRound(){speechSynthesis.cancel();document.getElementById("trainer").style.display="none";document.getElementById("finish").style.display="block";document.getElementById("finishScore").innerText=`${correctCount} / ${sessionCards.length} doğru`;document.getElementById("finishMessage").innerText=correctCount===sessionCards.length?"Bu turdaki tüm kartları ilk denemede doğru yaptın.":correctCount>=8?"Güçlü tur. Zorlandığın kartlar sonraki turlarda daha sık gelebilir.":correctCount>=5?"İyi ilerleme. Sistem zorlandığın kartların önceliğini artıracak.":"Bu set zordu. Yanlış yaptığın kartlar sonraki turlarda daha yüksek öncelik alacak."}
+function showStats(){const s=getStats();const rows=allCards.map(c=>{const x=s[c.id]||{seen:0,correct:0,wrong:0,speakingAttempts:0,speakingScoreSum:0};return{c,seen:x.seen,acc:x.seen?Math.round(x.correct/x.seen*100):0,sp:x.speakingAttempts?Math.round(x.speakingScoreSum/x.speakingAttempts):"-"}}).sort((a,b)=>(a.seen===0?-1:a.acc)-(b.seen===0?-1:b.acc)).slice(0,10);let t="En çok çalışılması gereken kartlar:\n\n";rows.forEach((r,i)=>t+=`${i+1}. ${r.c.german}\n   Görülme: ${r.seen} • Doğruluk: ${r.acc}% • Speaking: ${r.sp}\n\n`);alert(t)}
+document.getElementById("userAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")answered?nextCard():checkAnswer()});
+startNewRound();
+</script>
+</body>
+</html>
