@@ -65,14 +65,14 @@ a{color:#28489c}
 </div>
 <section id="stage" aria-label="Kelime kartı"></section>
 <div class="prefs">
-<label>Ses kaynağı <select id="voice"><option value="iphone">iPhone Almanca sesi</option><option value="despina">Google Despina (bağlantı gerekli)</option></select></label>
+<label>Ses kaynağı <strong>Kaydedilmiş doğal Almanca ses</strong></label>
 <label>Hız <select id="speed"><option value="0.72">0,72×</option><option value="0.85" selected>0,85×</option><option value="1">1×</option></select></label>
 </div>
-<div style="margin-top:10px"><button type="button" class="audio" id="testAudio">🔊 Ses testi: Hallo!</button></div><div id="status" class="status" aria-live="polite">Önce ses testini dinle; ardından ilk karta geç.</div>
-<div class="note"><b>Ses hakkında:</b> Google Despina servisine erişilemediği için varsayılan kaynak iPhone Almanca sesi. “Ses testi” ile önce sesi kontrol et. iPhone ses kalitesi seçili Almanca sesine göre değişir; ses yoksa veya aksan iyi değilse cihazının Almanca ses seçeneklerini kontrol et. Önceki robotik MP3 kullanılmıyor.</div>
+<div style="margin-top:10px"><button type="button" class="audio" id="testAudio">🔊 Ses testi: zuerst</button></div><div id="status" class="status" aria-live="polite">Önce ses testini dinle; ardından ilk karta geç.</div>
+<div class="note"><b>Ses hakkında:</b> Kelimeler ve cümleler önceden Almanca neural sesle kaydedilmiş 36 MP3 dosyasından çalınır. Google Despina servisi veya telefonun seslendirmesi gerekmez. Bir sorun görürsen sayfayı yenile.</div>
 <div class="footer"><a href="../">← German Listening Trainer</a><button type="button" class="reset" id="reset">Kartları sıfırla</button></div>
 </main>
-<audio id="cloudAudio" preload="none"></audio>
+<audio id="cloudAudio" preload="none" playsinline></audio>
 <script>
 (function(){
 "use strict";
@@ -109,38 +109,25 @@ try{
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({queue,missed,done,attempts,mode}))}catch(e){}};
 const status=s=>$("status").textContent=s;
 function normalize(s){return s.toLocaleLowerCase("de-DE").trim().replace(/[.!?,;:]+$/g,"").replace(/\s+/g," ")}
-let germanVoice=null;
-function findVoice(){
- if(!("speechSynthesis" in window))return null;
- const voices=window.speechSynthesis.getVoices().filter(v=>v.lang&&/^de(-|$)/i.test(v.lang));
- germanVoice=voices.find(v=>/^de-de$/i.test(v.lang)&&/premium|enhanced|anna|natural/i.test(v.name))||voices.find(v=>/^de-de$/i.test(v.lang))||voices[0]||null;
- return germanVoice;
-}
-if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=findVoice;findVoice();}
-function speakNative(t){
- if(!("speechSynthesis" in window)){status("Bu tarayıcı seslendirmeyi desteklemiyor.");return}
- const v=findVoice();
- if(!v){status("Almanca ses listesi henüz yüklenmedi. iPhone dil ayarı de-DE ile oynatmayı deniyorum.");}
- try{
-  window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(t);if(v)u.voice=v;u.lang="de-DE";u.rate=Number($("speed").value);u.pitch=1;
-  u.onstart=()=>status("🔊 "+(v?v.name+" ("+v.lang+")":"iPhone Almanca (de-DE)")+" konuşuyor.");
-  u.onerror=()=>status("iPhone sesi açılamadı. Google Despina'yı deneyebilirsin.");
-  window.speechSynthesis.speak(u)
- }catch(e){status("Tarayıcı seslendirmeyi başlatamadı.")}
-}
 const audio=$("cloudAudio");
-audio.onplaying=()=>status("🔊 Google Despina seslendiriliyor.");
-let requested="",recovered=false;function recover(){if(recovered)return;recovered=true;$("voice").value="iphone";status("Google Despina erişilemiyor. iPhone Almanca sesi deneniyor.");speakNative(requested)}audio.onerror=recover;
-function play(t){
- if($("voice").value==="iphone"){audio.pause();speakNative(t);return}
- if("speechSynthesis" in window)window.speechSynthesis.cancel();
- audio.pause();requested=t;recovered=false;
- audio.src="https://german-listening-tts-689765996851.europe-west1.run.app/speak?text="+encodeURIComponent(t);
- audio.load();audio.playbackRate=Number($("speed").value);
- status("Google Despina sesi yükleniyor...");
- const p=audio.play();
- if(p&&p.catch)p.catch(recover);
+audio.addEventListener("playing",()=>status("🔊 Almanca ses çalıyor."));
+audio.addEventListener("error",()=>status("Ses dosyası yüklenemedi; lütfen sayfayı yeniden aç."));
+audio.addEventListener("ended",()=>status("Ses bitti. İstersen yeniden dinle."));
+function playFile(path){
+  audio.pause();
+  audio.src=path;
+  audio.load();
+  audio.playbackRate=Number($("speed").value);
+  status("Almanca ses dosyası yükleniyor...");
+  const result=audio.play();
+  if(result&&typeof result.catch==="function"){
+    result.catch(()=>status("Ses dosyası açılamadı: "+path+". Sayfayı yenileyip tekrar dene."));
+  }
+}
+function play(kind){
+  if(!queue.length)return;
+  const num=String(queue[0]+1).padStart(2,"0");
+  playFile("audio/"+num+"-"+(kind==="example"?"example":"word")+".mp3");
 }
 function checkMatch(answer,target){
  const a=normalize(answer),b=normalize(target);
@@ -164,7 +151,7 @@ function render(){
  (mode==="audio"?'<h2>Dinle ve tahmin et</h2><p class="sub">Almanca yazılış henüz gizli.</p>':'<h2>'+esc(c[1])+'</h2><p class="sub">Almanca karşılığını hatırla.</p>')+
  '<button class="audio" data-say="word">🔊 Kelimeyi dinle</button><div class="guess"><label for="guessInput">Almanca tahminin</label><input id="guessInput" lang="de" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Duyduğunu yaz..." value="'+esc(typed)+'"></div>';
  $("stage").innerHTML='<div class="panel"><div class="label"><span>'+(flip?"CEVAP":"KELİME KARTI")+'</span><span>Kalan: '+queue.length+'</span></div><div class="face">'+face+'</div><div class="controls">'+(flip?'<button class="action" id="retry">↻ Tekrar et</button><button class="action good" id="known">✓ Bildim</button>':'<button class="action primary" id="reveal">Cevabı kontrol et →</button><button class="action" id="skip">Bilmiyorum</button>')+'</div></div>';
- $("stage").querySelectorAll("[data-say]").forEach(b=>b.addEventListener("click",()=>play(b.dataset.say==="example"?c[4]:c[0])));
+ $("stage").querySelectorAll("[data-say]").forEach(b=>b.addEventListener("click",()=>play(b.dataset.say)));
  if(!flip){
   $("guessInput").addEventListener("input",e=>typed=e.target.value);
   $("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();reveal();}});
@@ -186,7 +173,7 @@ function advance(yes){
  save();render();
 }
 function reset(){queue=cards.map((_,i)=>i);missed=[];done=0;attempts=0;flip=false;typed="";save();render();}
-$("testAudio").onclick=()=>play("Hallo! Ich spreche Deutsch.");
+$("testAudio").onclick=()=>playFile("audio/01-word.mp3");
 $("audioMode").onclick=()=>{mode="audio";flip=false;typed="";save();render()};
 $("meaningMode").onclick=()=>{mode="meaning";flip=false;typed="";save();render()};
 $("reset").onclick=()=>{if(confirm("Kart ilerlemeni sıfırlamak istiyor musun?"))reset()};
