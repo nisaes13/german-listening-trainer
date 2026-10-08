@@ -65,11 +65,11 @@ a{color:#28489c}
 </div>
 <section id="stage" aria-label="Kelime kartı"></section>
 <div class="prefs">
-<label>Ses kaynağı <select id="voice"><option value="despina">Google Despina</option><option value="iphone">iPhone Almanca sesi</option></select></label>
+<label>Ses kaynağı <select id="voice"><option value="iphone">iPhone Almanca sesi</option><option value="despina">Google Despina (bağlantı gerekli)</option></select></label>
 <label>Hız <select id="speed"><option value="0.72">0,72×</option><option value="0.85" selected>0,85×</option><option value="1">1×</option></select></label>
 </div>
-<div id="status" class="status" aria-live="polite">İlk kartı dinlemek için “Kelimeyi dinle”ye dokun.</div>
-<div class="note"><b>Ses testi:</b> İlk olarak Google Despina'yı dene. Bulut servisi erişime kapalıysa bunun uyarısı görünecek; iPhone Almanca sesini seçebilirsin. Oyun, bozuk robotik MP3 kaydını kullanmaz. Bir sesin çalıştığı kesinleşene kadar telaffuzunu örnek sesle karşılaştır.</div>
+<div style="margin-top:10px"><button type="button" class="audio" id="testAudio">🔊 Ses testi: Hallo!</button></div><div id="status" class="status" aria-live="polite">Önce ses testini dinle; ardından ilk karta geç.</div>
+<div class="note"><b>Ses hakkında:</b> Google Despina servisine erişilemediği için varsayılan kaynak iPhone Almanca sesi. “Ses testi” ile önce sesi kontrol et. iPhone ses kalitesi seçili Almanca sesine göre değişir; ses yoksa veya aksan iyi değilse cihazının Almanca ses seçeneklerini kontrol et. Önceki robotik MP3 kullanılmıyor.</div>
 <div class="footer"><a href="../">← German Listening Trainer</a><button type="button" class="reset" id="reset">Kartları sıfırla</button></div>
 </main>
 <audio id="cloudAudio" preload="none"></audio>
@@ -120,27 +120,27 @@ if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=findVoice
 function speakNative(t){
  if(!("speechSynthesis" in window)){status("Bu tarayıcı seslendirmeyi desteklemiyor.");return}
  const v=findVoice();
- if(!v){status("Almanca cihaz sesi bulunamadı. iPhone Ayarlar > Erişilebilirlik > Sesli İçerik > Sesler > Almanca yolundan ses indirebilirsin.");return}
+ if(!v){status("Almanca ses listesi henüz yüklenmedi. iPhone dil ayarı de-DE ile oynatmayı deniyorum.");}
  try{
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(t);u.voice=v;u.lang="de-DE";u.rate=Number($("speed").value);u.pitch=1;
-  u.onstart=()=>status("🔊 "+v.name+" ("+v.lang+") konuşuyor.");
+  const u=new SpeechSynthesisUtterance(t);if(v)u.voice=v;u.lang="de-DE";u.rate=Number($("speed").value);u.pitch=1;
+  u.onstart=()=>status("🔊 "+(v?v.name+" ("+v.lang+")":"iPhone Almanca (de-DE)")+" konuşuyor.");
   u.onerror=()=>status("iPhone sesi açılamadı. Google Despina'yı deneyebilirsin.");
   window.speechSynthesis.speak(u)
  }catch(e){status("Tarayıcı seslendirmeyi başlatamadı.")}
 }
 const audio=$("cloudAudio");
 audio.onplaying=()=>status("🔊 Google Despina seslendiriliyor.");
-audio.onerror=()=>status("Google Despina servisine erişilemiyor. Ses kaynağını iPhone Almanca sesi olarak değiştirebilirsin.");
+let requested="",recovered=false;function recover(){if(recovered)return;recovered=true;$("voice").value="iphone";status("Google Despina erişilemiyor. iPhone Almanca sesi deneniyor.");speakNative(requested)}audio.onerror=recover;
 function play(t){
  if($("voice").value==="iphone"){audio.pause();speakNative(t);return}
  if("speechSynthesis" in window)window.speechSynthesis.cancel();
- audio.pause();
+ audio.pause();requested=t;recovered=false;
  audio.src="https://german-listening-tts-689765996851.europe-west1.run.app/speak?text="+encodeURIComponent(t);
  audio.load();audio.playbackRate=Number($("speed").value);
  status("Google Despina sesi yükleniyor...");
  const p=audio.play();
- if(p&&p.catch)p.catch(()=>status("Google Despina bu bağlantıdan oynatılamadı. iPhone Almanca sesini deneyebilirsin."));
+ if(p&&p.catch)p.catch(recover);
 }
 function checkMatch(answer,target){
  const a=normalize(answer),b=normalize(target);
@@ -163,12 +163,12 @@ function render(){
  '<div class="emoji">'+(mode==="audio"?"🎧":c[2])+'</div>'+
  (mode==="audio"?'<h2>Dinle ve tahmin et</h2><p class="sub">Almanca yazılış henüz gizli.</p>':'<h2>'+esc(c[1])+'</h2><p class="sub">Almanca karşılığını hatırla.</p>')+
  '<button class="audio" data-say="word">🔊 Kelimeyi dinle</button><div class="guess"><label for="guessInput">Almanca tahminin</label><input id="guessInput" lang="de" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Duyduğunu yaz..." value="'+esc(typed)+'"></div>';
- $("stage").innerHTML='<div class="panel"><div class="label"><span>'+(flip?"CEVAP":"KELİME KARTI")+'</span><span>Kalan: '+queue.length+'</span></div><div class="face">'+face+'</div><div class="controls">'+(flip?'<button class="action" id="retry">↻ Tekrar et</button><button class="action good" id="known">✓ Bildim</button>':'<button class="action primary" id="reveal">Cevabı kontrol et →</button>')+'</div></div>';
+ $("stage").innerHTML='<div class="panel"><div class="label"><span>'+(flip?"CEVAP":"KELİME KARTI")+'</span><span>Kalan: '+queue.length+'</span></div><div class="face">'+face+'</div><div class="controls">'+(flip?'<button class="action" id="retry">↻ Tekrar et</button><button class="action good" id="known">✓ Bildim</button>':'<button class="action primary" id="reveal">Cevabı kontrol et →</button><button class="action" id="skip">Bilmiyorum</button>')+'</div></div>';
  $("stage").querySelectorAll("[data-say]").forEach(b=>b.addEventListener("click",()=>play(b.dataset.say==="example"?c[4]:c[0])));
  if(!flip){
   $("guessInput").addEventListener("input",e=>typed=e.target.value);
   $("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();reveal();}});
-  $("reveal").onclick=reveal;
+  $("reveal").onclick=reveal;$("skip").onclick=()=>{typed="";flip=true;render()};
  }else{
   const m=checkMatch(typed,c[0]),f=$("feedback");
   f.textContent=m==="correct"?"✅ Yazdığın doğru!":m==="near"?"🟡 Çok yakın! Almancadaki ünlü harflerin yazımını kontrol et.":m==="skip"?"Cevabı gördün; sonraki turda hatırlamaya çalış.":"✏️ Senin tahminin: "+typed;
@@ -177,7 +177,7 @@ function render(){
   $("known").onclick=()=>advance(true);
  }
 }
-function reveal(){flip=true;render()}
+function reveal(){if(!typed.trim()){status("Önce Almanca tahminini yaz veya Bilmiyorum düğmesine dokun.");return}flip=true;render()}
 function advance(yes){
  const i=queue[0];
  if(!yes&&!missed.includes(i))missed.push(i);
@@ -186,6 +186,7 @@ function advance(yes){
  save();render();
 }
 function reset(){queue=cards.map((_,i)=>i);missed=[];done=0;attempts=0;flip=false;typed="";save();render();}
+$("testAudio").onclick=()=>play("Hallo! Ich spreche Deutsch.");
 $("audioMode").onclick=()=>{mode="audio";flip=false;typed="";save();render()};
 $("meaningMode").onclick=()=>{mode="meaning";flip=false;typed="";save();render()};
 $("reset").onclick=()=>{if(confirm("Kart ilerlemeni sıfırlamak istiyor musun?"))reset()};
