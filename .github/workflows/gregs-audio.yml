@@ -1,0 +1,40 @@
+name: Generate Gregs German audio
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/gregs-audio.yml'
+      - 'gregs-tagebuch/generate_audio.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install text-to-speech library
+        run: python -m pip install "edge-tts>=7.0,<8.0"
+      - name: Generate 36 German neural-voice MP3 files
+        run: python gregs-tagebuch/generate_audio.py
+      - name: Verify generated audio files
+        run: |
+          test "$(find gregs-tagebuch/audio -name '*.mp3' -type f | wc -l)" -eq 36
+          ls -lh gregs-tagebuch/audio | tail -n 5
+      - name: Save audio in the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gregs-tagebuch/audio/
+          if ! git diff --cached --quiet; then
+            git commit -m "Add natural German voice MP3s for Gregs cards"
+            git push
+          fi
