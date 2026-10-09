@@ -1,184 +1,83 @@
 <!doctype html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f7f9fd">
-<title>Gregs Tagebuch | Dinle ve Yaz</title>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Gregs Tagebuch | Kelime ve Cümleler</title>
 <style>
-:root{--ink:#202b42;--muted:#65718a;--blue:#3150ad;--line:#dce3f1;--bg:#f7f9fd;--good:#14765c;--bad:#a94649}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:630px;margin:0 auto;padding:20px 14px 42px}
-.top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
-h1{font-size:24px;line-height:1.2;margin:5px 0 3px}
-h2{font-size:27px;line-height:1.23;margin:4px 0}
-small,.sub,.status{color:var(--muted)}
-small{font-size:12px}
-.sub{font-size:13px;margin:0}
-.count{white-space:nowrap;font-weight:700;font-size:13px}
-.progress{height:7px;background:#e2e8f3;border-radius:8px;overflow:hidden;margin:18px 0 15px}
-.progress>div{height:100%;width:0;background:var(--good);transition:width .2s}
-.modes{display:flex;gap:8px;margin-bottom:13px}
-button{font:inherit;cursor:pointer;touch-action:manipulation}
-.mode{flex:1;padding:11px 6px;background:white;color:var(--muted);border:1px solid var(--line);border-radius:12px;font-size:13px;font-weight:650}
-.mode[aria-pressed=true]{background:#eaf0ff;border-color:var(--blue);color:#23438f}
-.panel{background:white;border:1px solid var(--line);border-radius:19px;padding:18px;min-height:365px;display:flex;flex-direction:column;gap:13px;box-shadow:0 8px 24px #1e38710a}
-.label{display:flex;justify-content:space-between;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:10px;color:var(--muted)}
-.face{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:7px 0}
-.emoji{font-size:45px;line-height:1.2}
-.word{font-size:29px;font-weight:780;line-height:1.2}
-.action{border:1px solid var(--line);border-radius:12px;padding:13px;flex:1;font-weight:700;background:white;color:var(--ink)}
-.primary{background:var(--blue);border-color:var(--blue);color:white}
-.good{background:var(--good);border-color:var(--good);color:white}
-.controls{display:flex;gap:8px}
-.audio{border:1px solid #b8c8ed;border-radius:30px;color:#243f90;background:#eaf0ff;padding:12px 18px;font-weight:700;min-width:190px}
-input{width:100%;font:18px/1.35 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;border:1.5px solid #c5d0e4;border-radius:12px;padding:13px 14px;color:var(--ink);background:#fff}
-input:focus{outline:2px solid #8ca5f1;outline-offset:1px}
-.guess{width:100%;text-align:left}
-.guess label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}
-.result{width:100%;border-radius:14px;padding:13px;text-align:left;background:#f1f5fb}
-.result .meaning{color:var(--muted)}
-.result .hint{font-size:13px;padding:8px 0}
-.result .sample{border-top:1px solid var(--line);padding:9px 0 6px;font-weight:650}
-.feedback{font-size:13px}
-.greenText{color:var(--good)}.redText{color:var(--bad)}
-.prefs{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;background:white;border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:14px}
-.prefs label{font-size:12px;color:var(--muted)}
-select{font:inherit;color:var(--ink);border:1px solid var(--line);border-radius:9px;background:white;padding:7px;margin-left:4px;max-width:180px}
-.status{font-size:12px;min-height:22px;margin:12px 1px}
-.note{background:#edf2fb;border-radius:12px;padding:11px 13px;font-size:12px;color:#526178;margin-top:10px}
-.footer{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:15px 2px;font-size:12px}
-a{color:#28489c}
-.reset{border:0;background:none;color:#66748e;text-decoration:underline}
-.done{text-align:center;padding:34px 18px}
-@media(max-width:370px){.prefs{align-items:stretch;flex-direction:column}.mode{font-size:12px}}
-</style>
-</head>
-<body>
-<main>
-<header class="top"><div><small>A1 · Gregs Tagebuch · Sayfa 1–5</small><h1>🎧 Dinle ve Yaz</h1><p class="sub">Önce sesi duy → Almanca tahmin et → cevabı öğren</p></div><div class="count" id="count">0 / 18</div></header>
-<div class="progress"><div id="progress"></div></div>
-<div class="modes">
-<button type="button" class="mode" id="audioMode" aria-pressed="true">🔊 Sesten tahmin et</button>
-<button type="button" class="mode" id="meaningMode" aria-pressed="false">🇹🇷 Anlamdan tahmin et</button>
-</div>
-<section id="stage" aria-label="Kelime kartı"></section>
-<div class="prefs">
-<label>Ses kaynağı <strong>Kaydedilmiş doğal Almanca ses</strong></label>
-<label>Hız <select id="speed"><option value="0.72">0,72×</option><option value="0.85" selected>0,85×</option><option value="1">1×</option></select></label>
-</div>
-<div style="margin-top:10px"><button type="button" class="audio" id="testAudio">🔊 Ses testi: zuerst</button></div><div id="status" class="status" aria-live="polite">Önce ses testini dinle; ardından ilk karta geç.</div>
-<div class="note"><b>Ses hakkında:</b> Kelimeler ve cümleler önceden Almanca neural sesle kaydedilmiş 36 MP3 dosyasından çalınır. Google Despina servisi veya telefonun seslendirmesi gerekmez. Bir sorun görürsen sayfayı yenile.</div>
-<div class="footer"><a href="../">← German Listening Trainer</a><button type="button" class="reset" id="reset">Kartları sıfırla</button></div>
-</main>
-<audio id="cloudAudio" preload="none" playsinline></audio>
+:root{--ink:#27334d;--muted:#6c7890;--line:#dce5f4;--accent:#3555ab;--bg:#f5f7fc;--green:#117753}
+*{box-sizing:border-box}body{font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);margin:0}
+main{max-width:680px;margin:0 auto;padding:20px 14px 65px}header h1{font-size:25px;letter-spacing:-.6px;line-height:1.2;margin:8px 0}header p{margin:0;color:var(--muted);font-size:13px}
+button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}select,input{border:1px solid var(--line);border-radius:11px;padding:11px;background:white;color:var(--ink);min-width:0}input{font-size:17px;width:100%}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:19px 0 12px;align-items:center}.toolbar label{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
+.modes{display:flex;gap:8px;margin-bottom:12px}.mode{flex:1;border:1px solid var(--line);background:white;padding:11px 7px;border-radius:12px;color:var(--muted);font-size:12px;font-weight:650}.mode[aria-pressed=true]{background:#e9efff;border-color:#738bd2;color:#23458a}
+.track{height:7px;background:#e2e7f2;border-radius:6px;overflow:hidden;margin:12px 0}.fill{background:var(--green);height:100%;width:0;transition:width .2s}
+.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:10px 0}
+.card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px 17px;box-shadow:0 8px 25px #182c5909;min-height:400px;display:flex;flex-direction:column;gap:15px}.face{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;flex:1;gap:13px}.emoji{font-size:45px}.big{font-size:26px;line-height:1.25;letter-spacing:-.35px;font-weight:750}.sub{font-size:13px;color:var(--muted)}.label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.07em}
+.speak{background:#e9efff;color:#254a95;border:1px solid #b8c9ee;border-radius:24px;font-weight:700;padding:11px 14px}.inputWrap{text-align:left;width:100%}.inputWrap label{display:block;font-weight:650;font-size:12px;color:var(--muted);margin-bottom:6px}
+.buttons{display:flex;gap:8px}.buttons button{flex:1;min-width:0;min-height:47px;font-weight:700;border-radius:12px;background:#eef2f9;border:1px solid var(--line);color:var(--ink)}.buttons .primary{background:var(--accent);color:white;border-color:var(--accent)}.buttons .good{background:var(--green);color:white;border-color:var(--green)}
+.reverse{width:100%;text-align:left}.reverse h2{margin:0 0 3px;font-size:25px;color:#233f80;line-height:1.28}.reverse .meaning{color:var(--muted);font-weight:650;margin-bottom:14px}.section{padding:13px 0;border-top:1px solid var(--line)}.section label{display:block;font-size:11px;letter-spacing:.05em;font-weight:750;color:var(--muted);margin-bottom:6px}.german{font-size:17px;font-weight:650;line-height:1.45}.translation{font-size:14px;line-height:1.55;margin-top:6px;color:#485774}.tip{font-size:13px;color:#47536a;background:#f0f4fb;border-radius:10px;padding:12px;line-height:1.6}
+.foot{font-size:12px;color:var(--muted);line-height:1.5;margin-top:13px}.status{font-size:12px;color:#7a5470;min-height:18px;margin:14px 0}.outlink{margin-top:13px;display:block;color:#2f559b;font-size:13px;text-decoration:none}.reset{border:0;background:transparent;text-decoration:underline;color:var(--muted);padding:6px}
+@media(max-width:420px){.card{padding:16px 13px}.toolbar{align-items:flex-start}.toolbar select{max-width:170px}.modes button{font-size:11px}}
+</style></head>
+<body><main>
+<header><div class="label">ALMANCA A1 · JEFF KINNEY</div><h1>📖 Gregs Tagebuch</h1><p>Kelimeyi dinle → Tahminini yaz → Kitaptaki cümlesini, anlamını ve gramerini öğren</p></header>
+<div class="toolbar"><label>Çalışacağım sayfa <select id="page"><option value="all">Tümü (1–8)</option><option value="1">Sayfa 1</option><option value="2">Sayfa 2</option><option value="3">Sayfa 3</option><option value="4">Sayfa 4</option><option value="5">Sayfa 5</option><option value="6">Sayfa 6</option><option value="7">Sayfa 7</option><option value="8">Sayfa 8</option></select></label><label>Ses hızı <select id="speed"><option value=".78">0,78×</option><option value=".85" selected>0,85×</option><option value="1">Normal</option></select></label></div>
+<div class="modes"><button id="listen" class="mode" aria-pressed="true">🎧 Önce dinle ve yaz</button><button id="turkish" class="mode" aria-pressed="false">🇹🇷 Anlamdan tahmin et</button></div>
+<div class="meta"><span id="progressText">Kartlar yükleniyor...</span><span id="remaining"></span></div><div class="track"><div class="fill" id="fill"></div></div>
+<section id="stage" aria-label="Kelime oyunu"></section><div class="status" id="status" aria-live="polite"></div>
+<div class="foot">İşaretlediğin kartlar aynı sayfada tekrar çalışılır. Kitaptaki bağlamlar, cümleyi anlamana yardımcı olacak kısa alıntılardır; tam sayfa tercümesi değildir. Sadece cevap açıldıktan sonra Almanca ve Türkçe açıklamalar görünür.</div>
+<a class="outlink" href="../">← German Listening Trainer ana sayfasına dön</a>
+</main><audio id="player" playsinline preload="none"></audio>
 <script>
-(function(){
+(async()=>{
 "use strict";
-const cards=[
-["zuerst","öncelikle / ilk olarak","🥇","erst = ilk; ilk adımı düşün.","Zuerst lese ich."],
-["das Tagebuch","günlük","📔","Tag = gün, Buch = kitap.","Das ist mein Tagebuch."],
-["klarstellen","netleştirmek / açıklığa kavuşturmak","💡","klar = açık, net; ayrılabilir fiil.","Ich will etwas klarstellen."],
-["erwischen","yakalamak / suçüstü yakalamak","👀","Greg'in günlükle yakalanması.","Meine Mutter erwischt mich."],
-["reich","zengin","💰","Zenginlikle ünlü olmayı ayır.","Er ist reich."],
-["berühmt","ünlü","⭐","Ünlünün hayranlarını düşün.","Sie ist berühmt."],
-["momentan","şu anda","🕒","İngilizce moment = an.","Momentan bin ich zu Hause."],
-["umzingelt","etrafı sarılmış / çevrelenmiş","⭕","Çevreni saran bir halka.","Ich bin umzingelt."],
-["sich wundern","şaşırmak / hayret etmek","😲","Merak etmek değil, şaşırmak.","Ich wundere mich."],
-["die Prügelei","kavga / dövüş","💥","Okuldaki kavgaları hatırla.","Es gibt eine Prügelei."],
-["es gibt","var / mevcut","📍","Bir şeyin varlığını belirtir.","Es gibt viele Kinder."],
-["ich möchte","istiyorum (nazikçe)","☕","Kafede sipariş verirken.","Ich möchte einen Kaffee."],
-["warten auf","beklemek","🚌","Otobüs beklemek: auf + Akkusativ.","Ich warte auf den Bus."],
-["aufpassen","dikkat etmek","⚠️","Pass auf! = Dikkat et!","Pass bitte auf!"],
-["rechtzeitig","zamanında / vaktinde","⏰","Zeit = zaman.","Ich komme rechtzeitig."],
-["zu spät","geç / çok geç","⌛","rechtzeitig'nin karşıtı.","Ich bin zu spät."],
-["Ist der Platz frei?","Bu yer boş mu?","💺","Kafede veya trende kullan.","Ist der Platz frei?"],
-["sich setzen","oturmak / yerine geçmek","🪑","ich setze mich; du setzt dich.","Ich setze mich hier hin."]
-];
-const $=id=>document.getElementById(id);
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const KEY="gregs-tagebuch-listening-v2";
-let queue=cards.map((_,i)=>i),missed=[],done=0,attempts=0,flip=false,mode="audio",typed="";
-try{
- let p=JSON.parse(localStorage.getItem(KEY)||"null");
- if(p&&Array.isArray(p.queue)&&p.queue.every(n=>Number.isInteger(n)&&n>=0&&n<cards.length)){
-  queue=p.queue;missed=Array.isArray(p.missed)?p.missed:[];done=p.done||0;attempts=p.attempts||0;mode=p.mode||"audio";
- }
-}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({queue,missed,done,attempts,mode}))}catch(e){}};
-const status=s=>$("status").textContent=s;
-function normalize(s){return s.toLocaleLowerCase("de-DE").trim().replace(/[.!?,;:]+$/g,"").replace(/\s+/g," ")}
-const audio=$("cloudAudio");
-audio.addEventListener("playing",()=>status("🔊 Almanca ses çalıyor."));
-audio.addEventListener("error",()=>status("Ses dosyası yüklenemedi; lütfen sayfayı yeniden aç."));
-audio.addEventListener("ended",()=>status("Ses bitti. İstersen yeniden dinle."));
-function playFile(path){
-  audio.pause();
-  audio.src=path;
-  audio.load();
-  audio.playbackRate=Number($("speed").value);
-  status("Almanca ses dosyası yükleniyor...");
-  const result=audio.play();
-  if(result&&typeof result.catch==="function"){
-    result.catch(()=>status("Ses dosyası açılamadı: "+path+". Sayfayı yenileyip tekrar dene."));
-  }
+const $=x=>document.getElementById(x);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const normalize=s=>s.trim().toLocaleLowerCase("de-DE").replace(/[!?.,:;]+$/g,"").replace(/\s+/g," ");
+const k="greg-context-cards-v1";
+let cards=[],queue=[],good=0,tries=0,mode="listen",revealed=false,guess="",result="all",review=[];
+try{cards=await fetch("./cards.json?v=2",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Kartlar yüklenemedi");return r.json()})}catch(e){$("stage").textContent="Kart dosyası açılamadı. Sayfayı yenile.";return}
+if(!Array.isArray(cards)||!cards.length){$("stage").textContent="Kart listesi boş.";return}
+try{const s=JSON.parse(localStorage.getItem(k)||"null");if(s){mode=s.mode==="meaning"?"meaning":"listen";result=/^[1-8]$/.test(s.result)?s.result:"all";}}catch(e){}
+$("page").value=result;
+const stat=s=>$("status").textContent=s;
+const player=$("player");player.onplaying=()=>stat("🔊 Almanca kayıt oynatılıyor.");player.onerror=()=>stat("Ses yüklenemedi. Sayfayı yenileyip tekrar dene.");player.onended=()=>stat("Dinleme tamamlandı.");
+function sound(kind){
+ const c=queue[0];if(!c)return;
+ player.pause();player.src="audio/"+c.id+"-"+(kind==="book"?"book":"word")+".mp3";player.load();
+ player.playbackRate=Number($("speed").value);
+ stat("Ses yükleniyor...");
+ const promise=player.play();if(promise&&promise.catch)promise.catch(()=>stat("Ses çalınamadı: "+c.id+". Sayfayı tekrar yükle."));
 }
-function play(kind){
-  if(!queue.length)return;
-  const num=String(queue[0]+1).padStart(2,"0");
-  playFile("audio/"+num+"-"+(kind==="example"?"example":"word")+".mp3");
+function save(){try{localStorage.setItem(k,JSON.stringify({mode,result}))}catch(e){}}
+function start(){
+ queue=cards.filter(c=>result==="all"||String(c.page)===result).map(c=>({...c}));good=0;tries=0;review=[];revealed=false;guess="";save();render();
 }
-function checkMatch(answer,target){
- const a=normalize(answer),b=normalize(target);
- if(!a)return "skip";
- if(a===b)return "correct";
- const flat=s=>s.replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss");
- return flat(a)===flat(b)?"near":"wrong";
+function finish(){
+ $("stage").innerHTML='<div class="card" style="text-align:center;justify-content:center"><div style="font-size:50px">🏆</div><h2>Sayfa çalışması tamamlandı!</h2><p>'+good+' kartı çalıştın. '+tries+' deneme yaptın.</p><p style="font-size:13px;color:#667">' +esc(review.map(x=>x.word).join(" · ")||"İlk turda tekrar gerektiren kart yok.")+'</p><div class="buttons"><button class="primary" id="again">Yeniden başla</button></div></div>';$("again").onclick=start;
 }
 function render(){
- $("count").textContent=done+" / "+cards.length;$("progress").style.width=(done/cards.length*100)+"%";
- $("audioMode").setAttribute("aria-pressed",String(mode==="audio"));
- $("meaningMode").setAttribute("aria-pressed",String(mode==="meaning"));
- if(!queue.length){
-  $("stage").innerHTML='<div class="panel done"><div style="font-size:46px">🏆</div><h2>18 kartı tamamladın!</h2><p>'+attempts+' deneme yaptın.</p><p class="sub">Tekrar gerektirenler: '+esc(missed.map(i=>cards[i][0]).join(" · ")||"Yok")+'</p><button class="action primary" id="newRound">Yeniden çalış</button></div>';
-  $("newRound").onclick=reset;save();return;
+ $("listen").setAttribute("aria-pressed",String(mode==="listen"));$("turkish").setAttribute("aria-pressed",String(mode==="meaning"));
+ const total=cards.filter(c=>result==="all"||String(c.page)===result).length;
+ $("progressText").textContent=good+" / "+total+" öğrenildi";$("remaining").textContent=queue.length+" kart kaldı";
+ $("fill").style.width=(total?100*good/total:0)+"%";
+ if(!queue.length){finish();return}
+ const c=queue[0];const area=$("stage");
+ if(!revealed){
+ area.innerHTML='<div class="card"><div class="meta"><span>Sayfa '+c.page+' · KELİME</span><span>Almanca A1</span></div><div class="face"><div class="emoji">'+(mode==="listen"?"🎧":"📚")+'</div>'+
+ (mode==="meaning"?'<div class="big">'+esc(c.meaning)+'</div><div class="sub">Almancasını tahmin et.</div>':'<div class="big">Dinle ve tahmin et</div><div class="sub">Almanca kelime ilk başta gizli.</div>')+
+ '<button class="speak" id="wordAudio">🔊 Kelimeyi dinle</button><div class="inputWrap"><label for="answer">Almanca tahminim</label><input id="answer" lang="de" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Duyduğunu Almanca yaz..." value="'+esc(guess)+'"></div></div><div class="buttons"><button id="dontKnow">Bilmiyorum</button><button id="check" class="primary">Cevabı göster →</button></div></div>';
+ $("wordAudio").onclick=()=>sound("word");$("answer").oninput=e=>guess=e.target.value;$("check").onclick=()=>{if(!guess.trim()){stat("Bir tahmin yazabilir veya Bilmiyorum düğmesine basabilirsin.");return}revealed=true;render()};$("dontKnow").onclick=()=>{guess="";revealed=true;render()};$("answer").onkeydown=e=>{if(e.key==="Enter")$("check").click()};return
  }
- const c=cards[queue[0]];
- let face=flip?
- '<div class="emoji">'+c[2]+'</div><div class="result"><h2 lang="de">'+esc(c[0])+'</h2><div class="meaning">'+esc(c[1])+'</div><div class="hint">💡 '+esc(c[3])+'</div><div class="sample" lang="de">'+esc(c[4])+'</div><button class="audio" data-say="example">🔊 Cümleyi dinle</button></div><p class="feedback" id="feedback"></p>':
- '<div class="emoji">'+(mode==="audio"?"🎧":c[2])+'</div>'+
- (mode==="audio"?'<h2>Dinle ve tahmin et</h2><p class="sub">Almanca yazılış henüz gizli.</p>':'<h2>'+esc(c[1])+'</h2><p class="sub">Almanca karşılığını hatırla.</p>')+
- '<button class="audio" data-say="word">🔊 Kelimeyi dinle</button><div class="guess"><label for="guessInput">Almanca tahminin</label><input id="guessInput" lang="de" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Duyduğunu yaz..." value="'+esc(typed)+'"></div>';
- $("stage").innerHTML='<div class="panel"><div class="label"><span>'+(flip?"CEVAP":"KELİME KARTI")+'</span><span>Kalan: '+queue.length+'</span></div><div class="face">'+face+'</div><div class="controls">'+(flip?'<button class="action" id="retry">↻ Tekrar et</button><button class="action good" id="known">✓ Bildim</button>':'<button class="action primary" id="reveal">Cevabı kontrol et →</button><button class="action" id="skip">Bilmiyorum</button>')+'</div></div>';
- $("stage").querySelectorAll("[data-say]").forEach(b=>b.addEventListener("click",()=>play(b.dataset.say)));
- if(!flip){
-  $("guessInput").addEventListener("input",e=>typed=e.target.value);
-  $("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();reveal();}});
-  $("reveal").onclick=reveal;$("skip").onclick=()=>{typed="";flip=true;render()};
- }else{
-  const m=checkMatch(typed,c[0]),f=$("feedback");
-  f.textContent=m==="correct"?"✅ Yazdığın doğru!":m==="near"?"🟡 Çok yakın! Almancadaki ünlü harflerin yazımını kontrol et.":m==="skip"?"Cevabı gördün; sonraki turda hatırlamaya çalış.":"✏️ Senin tahminin: "+typed;
-  f.classList.add(m==="correct"?"greenText":"redText");
-  $("retry").onclick=()=>advance(false);
-  $("known").onclick=()=>advance(true);
- }
+ const expected=normalize(c.word),actual=normalize(guess),match=actual===expected;
+ area.innerHTML='<div class="card"><div class="meta"><span>Sayfa '+c.page+' · CEVAP</span><span>'+ (match?"✅ Doğru yazdın":guess.trim()?"Yazdığın: "+esc(guess):"Henüz tahmin yok")+'</span></div><div class="reverse"><h2 lang="de">'+esc(c.word)+'</h2><div class="meaning">'+esc(c.meaning)+'</div><button class="speak" id="wordAudio">🔊 Kelimeyi dinle</button><div class="section"><label>KİTAPTAKİ KISA BAĞLAM</label><div class="german" lang="de">'+esc(c.book)+'</div><div style="margin-top:9px"><button class="speak" id="bookAudio">🔊 Kitap cümlesini dinle</button></div><div class="translation">🇹🇷 '+esc(c.translation)+'</div></div><div class="section"><label>💡 CÜMLEYİ ÇÖZ / A1 GRAMER NOTU</label><div class="tip">'+esc(c.tip)+'</div></div></div><div class="buttons"><button id="again">↻ Tekrar et</button><button class="good" id="known">✓ Öğrendim</button></div></div>';
+ $("wordAudio").onclick=()=>sound("word");$("bookAudio").onclick=()=>sound("book");
+ $("known").onclick=()=>advance(true);$("again").onclick=()=>advance(false);
 }
-function reveal(){if(!typed.trim()){status("Önce Almanca tahminini yaz veya Bilmiyorum düğmesine dokun.");return}flip=true;render()}
-function advance(yes){
- const i=queue[0];
- if(!yes&&!missed.includes(i))missed.push(i);
- queue=yes?queue.slice(1):[...queue.slice(1),i];
- if(yes)done++;attempts++;flip=false;typed="";
- save();render();
+function advance(ok){
+ const c=queue.shift();tries++;if(ok)good++;else {if(!review.some(x=>x.id===c.id))review.push(c);queue.push(c)}
+ revealed=false;guess="";stat("");render()
 }
-function reset(){queue=cards.map((_,i)=>i);missed=[];done=0;attempts=0;flip=false;typed="";save();render();}
-$("testAudio").onclick=()=>playFile("audio/01-word.mp3");
-$("audioMode").onclick=()=>{mode="audio";flip=false;typed="";save();render()};
-$("meaningMode").onclick=()=>{mode="meaning";flip=false;typed="";save();render()};
-$("reset").onclick=()=>{if(confirm("Kart ilerlemeni sıfırlamak istiyor musun?"))reset()};
-render();
+$("page").onchange=e=>{result=e.target.value;start()};
+$("listen").onclick=()=>{mode="listen";revealed=false;guess="";save();render()};
+$("turkish").onclick=()=>{mode="meaning";revealed=false;guess="";save();render()};
+start();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
