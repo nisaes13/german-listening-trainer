@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/gregs-audio.yml'
       - 'gregs-tagebuch/generate_audio.py'
+      - 'gregs-tagebuch/cards.json'
   workflow_dispatch:
 
 permissions:
@@ -23,11 +24,11 @@ jobs:
           python-version: '3.12'
       - name: Install text-to-speech library
         run: python -m pip install "edge-tts>=7.0,<8.0"
-      - name: Generate 36 German neural-voice MP3 files
+      - name: Generate German neural-voice MP3 files
         run: python gregs-tagebuch/generate_audio.py
       - name: Verify generated audio files
         run: |
-          test "$(find gregs-tagebuch/audio -name '*.mp3' -type f | wc -l)" -eq 36
+          test "$(find gregs-tagebuch/audio -name '*.mp3' -type f | wc -l)" -ge 184
           ls -lh gregs-tagebuch/audio | tail -n 5
       - name: Save audio in the repository
         run: |
