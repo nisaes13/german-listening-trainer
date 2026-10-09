@@ -1,59 +1,44 @@
 #!/usr/bin/env python3
-"""Render Gregs Tagebuch vocabulary and example sentences as German neural-speech MP3s."""
+"""Generate German Katja Neural MP3s from the contextual book cards."""
 import asyncio
+import json
 from pathlib import Path
 import edge_tts
 
+BASE = Path(__file__).parent
+OUT = BASE / "audio"
+CARDS = json.loads((BASE / "cards.json").read_text(encoding="utf8"))
 VOICE = "de-DE-KatjaNeural"
-OUT = Path(__file__).parent / "audio"
-CARDS = [
- ("zuerst", "Zuerst lese ich."),
- ("das Tagebuch", "Das ist mein Tagebuch."),
- ("klarstellen", "Ich will etwas klarstellen."),
- ("erwischen", "Meine Mutter erwischt mich."),
- ("reich", "Er ist reich."),
- ("berühmt", "Sie ist berühmt."),
- ("momentan", "Momentan bin ich zu Hause."),
- ("umzingelt", "Ich bin umzingelt."),
- ("sich wundern", "Ich wundere mich."),
- ("die Prügelei", "Es gibt eine Prügelei."),
- ("es gibt", "Es gibt viele Kinder."),
- ("ich möchte", "Ich möchte einen Kaffee."),
- ("warten auf", "Ich warte auf den Bus."),
- ("aufpassen", "Pass bitte auf!"),
- ("rechtzeitig", "Ich komme rechtzeitig."),
- ("zu spät", "Ich bin zu spät."),
- ("Ist der Platz frei?", "Ist der Platz frei?"),
- ("sich setzen", "Ich setze mich hier hin."),
-]
 
-async def render_file(i, kind, sentence, semaphore):
-    target = OUT / f"{i:02d}-{kind}.mp3"
-    async with semaphore:
+async def produce(card, kind, text, sem):
+    target = OUT / f"{card['id']}-{kind}.mp3"
+    async with sem:
         for attempt in range(4):
             try:
-                await edge_tts.Communicate(text=sentence, voice=VOICE, rate="-7%").save(str(target))
-                if target.stat().st_size < 1200:
-                    raise RuntimeError("MP3 is too short")
-                print(f"OK {target.name} {target.stat().st_size} bytes")
+                await edge_tts.Communicate(text=text, voice=VOICE, rate="-7%").save(str(target))
+                if target.stat().st_size < 1300:
+                    raise RuntimeError("MP3 unexpectedly small")
+                print("OK", target.name, target.stat().st_size)
                 return
-            except Exception as exc:
-                print(f"Attempt {attempt + 1}/4 failed for {target.name}: {exc}")
+            except Exception as e:
+                print("RETRY", target.name, attempt+1, repr(e))
                 target.unlink(missing_ok=True)
                 if attempt == 3:
                     raise
-                await asyncio.sleep((attempt + 1)*3)
+                await asyncio.sleep((attempt+1)*2)
 
 async def main():
-    OUT.mkdir(parents=True, exist_ok=True)
-    semaphore = asyncio.Semaphore(2)
-    await asyncio.gather(*(
-        render_file(i, kind, text, semaphore)
-        for i, (word, example) in enumerate(CARDS, 1)
-        for kind, text in (("word", word), ("example", example))
-    ))
-    assert len(list(OUT.glob("*.mp3"))) == 36, "Not all 36 files were produced"
-    print("SUCCESS: 18 German word MP3s and 18 example MP3s.")
+    OUT.mkdir(exist_ok=True)
+    sem = asyncio.Semaphore(4)
+    jobs = []
+    for card in CARDS:
+        jobs.append(produce(card,"word",card["word"],sem))
+        jobs.append(produce(card,"book",card["book"],sem))
+    await asyncio.gather(*jobs)
+    for card in CARDS:
+        for kind in ("word","book"):
+            assert (OUT / f"{card['id']}-{kind}.mp3").stat().st_size > 1300
+    print(f"PASS: all {len(CARDS)*2} contextual MP3 files exist.")
 
-if __name__ == "__main__":
+if __name__=="__main__":
     asyncio.run(main())
