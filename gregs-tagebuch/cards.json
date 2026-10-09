@@ -1,0 +1,830 @@
+[
+  {
+    "id": "001",
+    "page": 1,
+    "word": "zuerst",
+    "meaning": "önce, ilk olarak",
+    "book": "Zuerst will ich etwas klarstellen.",
+    "translation": "Öncelikle bir şeyi açıklığa kavuşturmak istiyorum.",
+    "tip": "Zuerst zaman zarfıdır. Ich will ... klarstellen: modal fiilden sonra asıl fiil sona gider."
+  },
+  {
+    "id": "002",
+    "page": 1,
+    "word": "klarstellen",
+    "meaning": "açıklığa kavuşturmak",
+    "book": "Zuerst will ich etwas klarstellen.",
+    "translation": "Önce bir şeyi netleştirmek istiyorum.",
+    "tip": "will + mastar (klarstellen). Tek başına kullanıldığında ayrılır: Ich stelle etwas klar."
+  },
+  {
+    "id": "003",
+    "page": 1,
+    "word": "das Tagebuch",
+    "meaning": "günlük",
+    "book": "Das sind meine Memoiren und KEIN Tagebuch.",
+    "translation": "Bunlar benim anılarım, günlük değil.",
+    "tip": "das Tagebuch nötrdür. kein olumsuzluk sözcüğü, burada ein'in olumsuzu."
+  },
+  {
+    "id": "004",
+    "page": 1,
+    "word": "die Memoiren",
+    "meaning": "hatıralar, anılar",
+    "book": "Das sind meine Memoiren und KEIN Tagebuch.",
+    "translation": "Bunlar benim anılarım, günlük değil.",
+    "tip": "Memoiren çoğuldur; bu yüzden Das sind ... yapısı var."
+  },
+  {
+    "id": "005",
+    "page": 1,
+    "word": "der Umschlag",
+    "meaning": "kapak",
+    "book": "auf dem Umschlag steht etwas anderes",
+    "translation": "kapakta başka bir şey yazıyor",
+    "tip": "auf dem Umschlag konum bildirir: auf + Dativ. stehen burada 'yazmak' anlamına gelir."
+  },
+  {
+    "id": "006",
+    "page": 1,
+    "word": "etwas anderes",
+    "meaning": "başka bir şey",
+    "book": "auf dem Umschlag steht etwas anderes",
+    "translation": "kapakta başka bir şey yazıyor",
+    "tip": "etwas + anderes birlikte bir isim gibi kullanılır; anderes küçük değil, büyük değil burada anderes doğru."
+  },
+  {
+    "id": "007",
+    "page": 1,
+    "word": "besorgen",
+    "meaning": "temin etmek, satın alıp getirmek",
+    "book": "als meine Mom das Ding besorgt hat",
+    "translation": "annem o şeyi aldığında",
+    "tip": "besorgt hat geçmiş zaman Perfekt'tir. als geçmişteki tek olay için kullanılır."
+  },
+  {
+    "id": "008",
+    "page": 1,
+    "word": "erwischen",
+    "meaning": "yakalamak, suçüstü yakalamak",
+    "book": "Wenn mich irgendjemand ... erwischt",
+    "translation": "Eğer herhangi biri beni ... yakalarsa",
+    "tip": "mich = beni (Akkusativ). Wenn ile başlayan yan cümlede çekimli fiil sondadır."
+  },
+  {
+    "id": "009",
+    "page": 1,
+    "word": "wissen / ich weiß",
+    "meaning": "bilmek / biliyorum",
+    "book": "weiß ich genau, was mir blüht",
+    "translation": "başıma ne geleceğini çok iyi biliyorum",
+    "tip": "wissen düzensiz fiildir: ich weiß. was mir blüht deyimdir; kelimesi kelimesine çevrilmez."
+  },
+  {
+    "id": "010",
+    "page": 1,
+    "word": "die Idee",
+    "meaning": "fikir",
+    "book": "Die Idee war von meiner MUTTER, nicht von mir.",
+    "translation": "Fikir annemindi, benim değildi.",
+    "tip": "war, sein fiilinin geçmiş hâlidir. von mir / von meiner Mutter karşıtlığına bak."
+  },
+  {
+    "id": "011",
+    "page": 1,
+    "word": "das Gefühl",
+    "meaning": "duygu, his",
+    "book": "meine „Gefühle“",
+    "translation": "benim 'duygularım'",
+    "tip": "das Gefühl → die Gefühle. meine çoğul iyelik belirtecidir."
+  },
+  {
+    "id": "012",
+    "page": 1,
+    "word": "sich täuschen",
+    "meaning": "yanılmak, yanlış düşünmek",
+    "book": "hat sie sich getäuscht",
+    "translation": "o yanılmış",
+    "tip": "Dönüşlü fiil: sich täuschen. Perfekt: hat sich getäuscht."
+  },
+  {
+    "id": "013",
+    "page": 2,
+    "word": "später",
+    "meaning": "sonra, ileride",
+    "book": "weil ich später ...",
+    "translation": "çünkü ileride ...",
+    "tip": "später zaman zarfıdır; weil ile yan cümlede çekimli fiil sona gider."
+  },
+  {
+    "id": "014",
+    "page": 2,
+    "word": "reich",
+    "meaning": "zengin",
+    "book": "wenn ich reich und berühmt bin",
+    "translation": "zengin ve ünlü olduğumda",
+    "tip": "sein ile sıfatlar yalın kalır: ich bin reich."
+  },
+  {
+    "id": "015",
+    "page": 2,
+    "word": "berühmt",
+    "meaning": "ünlü",
+    "book": "wenn ich reich und berühmt bin",
+    "translation": "zengin ve ünlü olduğumda",
+    "tip": "Sıfatlar und ile bağlanır: reich und berühmt."
+  },
+  {
+    "id": "016",
+    "page": 2,
+    "word": "deswegen",
+    "meaning": "bu nedenle, bundan dolayı",
+    "book": "nur deswegen, weil ich später ...",
+    "translation": "yalnızca şu nedenle: çünkü ileride ...",
+    "tip": "deswegen ana cümlede neden/sonuç verir; weil neden belirten yan cümle kurar."
+  },
+  {
+    "id": "017",
+    "page": 2,
+    "word": "beantworten",
+    "meaning": "cevaplamak",
+    "book": "dämliche Fragen zu beantworten",
+    "translation": "aptalca soruları cevaplamak",
+    "tip": "zu + mastar kalıbı. 'Fragen beantworten' birlikte öğrenilmesi yararlı bir kalıptır."
+  },
+  {
+    "id": "018",
+    "page": 2,
+    "word": "spätestens",
+    "meaning": "en geç",
+    "book": "Spätestens dann werden meine Memoiren ...",
+    "translation": "En geç o zaman anılarım ...",
+    "tip": "spätestens dann = en geç o zaman. werden burada gelecek anlamını kurabilir."
+  },
+  {
+    "id": "019",
+    "page": 2,
+    "word": "nützlich",
+    "meaning": "faydalı",
+    "book": "sicher ganz nützlich sein",
+    "translation": "kesinlikle oldukça faydalı olmak",
+    "tip": "sein ile sıfat kullanımı: nützlich sein = faydalı olmak."
+  },
+  {
+    "id": "020",
+    "page": 2,
+    "word": "die Kindheit",
+    "meaning": "çocukluk",
+    "book": "Erzähl uns von deiner Kindheit!",
+    "translation": "Bize çocukluğunu anlat!",
+    "tip": "erzählen von + Dativ. deiner Kindheit, die Kindheit'in Dativ biçimidir."
+  },
+  {
+    "id": "021",
+    "page": 2,
+    "word": "eines Tages",
+    "meaning": "bir gün, günün birinde",
+    "book": "Wie gesagt, eines Tages bin ich reich und berühmt",
+    "translation": "Dediğim gibi, bir gün zengin ve ünlü olacağım",
+    "tip": "Bir gelecek beklentisi şimdiki zamanla da ifade edilebilir."
+  },
+  {
+    "id": "022",
+    "page": 2,
+    "word": "momentan",
+    "meaning": "şu anda",
+    "book": "aber momentan bin ich von Idioten umzingelt",
+    "translation": "ama şu anda aptallarla çevriliyim",
+    "tip": "aber karşıtlık kurar. momentan = şimdi; eines Tages = bir gün."
+  },
+  {
+    "id": "023",
+    "page": 2,
+    "word": "umzingelt",
+    "meaning": "etrafı sarılmış",
+    "book": "bin ich von Idioten umzingelt",
+    "translation": "aptallar tarafından çevrelenmişim",
+    "tip": "sein + Partizip II ile durum anlatılır; von burada 'tarafından' anlamındadır."
+  },
+  {
+    "id": "024",
+    "page": 3,
+    "word": "ich möchte",
+    "meaning": "istiyorum (nazikçe)",
+    "book": "Ich möchte hier nur mal gesagt haben",
+    "translation": "Burada yalnızca şunu söylemiş olmak istiyorum",
+    "tip": "möchte nazik istek bildirir; ardından mastar/fiil grubu gelir."
+  },
+  {
+    "id": "025",
+    "page": 3,
+    "word": "bescheuert",
+    "meaning": "saçma, aptalca",
+    "book": "die bescheuertste Idee aller Zeiten",
+    "translation": "tüm zamanların en saçma fikri",
+    "tip": "-ste üstünlük derecesidir: bescheuert → bescheuertste."
+  },
+  {
+    "id": "026",
+    "page": 3,
+    "word": "die Grundschule",
+    "meaning": "ilkokul",
+    "book": "frisch aus der Grundschule",
+    "translation": "ilkokuldan yeni çıkmış",
+    "tip": "aus + Dativ: aus der Grundschule. die Grundschule dişil isimdir."
+  },
+  {
+    "id": "027",
+    "page": 3,
+    "word": "riesig",
+    "meaning": "kocaman, devasa",
+    "book": "mit riesigen Gorillas zusammen",
+    "translation": "kocaman gorillerle birlikte",
+    "tip": "mit her zaman Dativ ister. riesigen, sıfatın çekimli hâlidir."
+  },
+  {
+    "id": "028",
+    "page": 3,
+    "word": "zweimal täglich",
+    "meaning": "günde iki kez",
+    "book": "die sich zweimal täglich rasieren müssen",
+    "translation": "günde iki kez tıraş olmak zorunda olanlar",
+    "tip": "zweimal = iki kez, täglich = günlük. müssen + mastar."
+  },
+  {
+    "id": "029",
+    "page": 3,
+    "word": "sich rasieren",
+    "meaning": "tıraş olmak",
+    "book": "sich zweimal täglich rasieren müssen",
+    "translation": "günde iki kez tıraş olmak zorunda olmak",
+    "tip": "Dönüşlü fiil: ich rasiere mich. müssen + rasieren; mastar sona gider."
+  },
+  {
+    "id": "030",
+    "page": 3,
+    "word": "sich wundern",
+    "meaning": "şaşırmak, hayret etmek",
+    "book": "Und dann wundern sich alle",
+    "translation": "Sonra herkes şaşırıyor",
+    "tip": "sich wundern dönüşlüdür. alle = herkes / hepsi."
+  },
+  {
+    "id": "031",
+    "page": 3,
+    "word": "die Prügelei",
+    "meaning": "kavga, dövüş",
+    "book": "dass es so viele Prügeleien gibt",
+    "translation": "bu kadar çok kavga olduğunu",
+    "tip": "dass yan cümlesinde fiil sona gider. es gibt + Akkusativ = var."
+  },
+  {
+    "id": "032",
+    "page": 3,
+    "word": "es gibt",
+    "meaning": "var, mevcut",
+    "book": "dass es so viele Prügeleien gibt",
+    "translation": "bu kadar çok kavga olduğunu",
+    "tip": "es gibt değişmeyen temel kalıp; kendisinden sonra Akkusativ gelir."
+  },
+  {
+    "id": "033",
+    "page": 3,
+    "word": "die Körpergröße",
+    "meaning": "boy, vücut uzunluğu",
+    "book": "nach Körpergröße und nicht nach Alter",
+    "translation": "boya göre, yaşa göre değil",
+    "tip": "nach + Dativ; nach burada '-e göre' anlamında."
+  },
+  {
+    "id": "034",
+    "page": 3,
+    "word": "das Alter",
+    "meaning": "yaş",
+    "book": "nicht nach Alter",
+    "translation": "yaşa göre değil",
+    "tip": "das Alter ile wie alt? (kaç yaşında?) kalıbını bağdaştır."
+  },
+  {
+    "id": "035",
+    "page": 4,
+    "word": "heute",
+    "meaning": "bugün",
+    "book": "Heute ist der erste Schultag",
+    "translation": "Bugün ilk okul günü",
+    "tip": "Almanca ana cümlede çekimli fiil ikinci konumdadır: Heute | ist | ..."
+  },
+  {
+    "id": "036",
+    "page": 4,
+    "word": "der Schultag",
+    "meaning": "okul günü",
+    "book": "Heute ist der erste Schultag",
+    "translation": "Bugün ilk okul günü",
+    "tip": "Schule + Tag birleşik isimdir; artikel son kelimeden gelir: der Tag."
+  },
+  {
+    "id": "037",
+    "page": 4,
+    "word": "warten auf",
+    "meaning": "beklemek",
+    "book": "gerade warten wir alle darauf",
+    "translation": "tam şu anda hepimiz bunu bekliyoruz",
+    "tip": "warten auf + Akkusativ. darauf = ona / bunu (bir duruma gönderme)."
+  },
+  {
+    "id": "038",
+    "page": 4,
+    "word": "der Lehrer",
+    "meaning": "erkek öğretmen",
+    "book": "dass der Lehrer die Sitzordnung festlegt",
+    "translation": "öğretmenin oturma düzenini belirlemesini",
+    "tip": "dass bağlacıyla fiil sona gider: ... festlegt."
+  },
+  {
+    "id": "039",
+    "page": 4,
+    "word": "die Sitzordnung",
+    "meaning": "oturma düzeni",
+    "book": "dass der Lehrer die Sitzordnung festlegt",
+    "translation": "öğretmenin oturma düzenini belirlemesini",
+    "tip": "sitzen / Sitz + Ordnung birleşik isimdir; die Ordnung → die Sitzordnung."
+  },
+  {
+    "id": "040",
+    "page": 4,
+    "word": "festlegen",
+    "meaning": "belirlemek, kararlaştırmak",
+    "book": "die Sitzordnung festlegt",
+    "translation": "oturma düzenini belirler",
+    "tip": "festlegen ayrılabilir fiildir: er legt ... fest. dass cümlesinde festlegt olarak birleşir."
+  },
+  {
+    "id": "041",
+    "page": 4,
+    "word": "langweilig",
+    "meaning": "sıkıcı",
+    "book": "damit mir nicht langweilig wird",
+    "translation": "canım sıkılmasın diye",
+    "tip": "mir ist langweilig = sıkılıyorum. damit amaç bildirir."
+  },
+  {
+    "id": "042",
+    "page": 4,
+    "word": "aufpassen",
+    "meaning": "dikkat etmek",
+    "book": "muss man höllisch aufpassen",
+    "translation": "insan çok dikkat etmeli",
+    "tip": "müssen + mastar. man genel özne: insan / herkes."
+  },
+  {
+    "id": "043",
+    "page": 4,
+    "word": "das Klassenzimmer",
+    "meaning": "sınıf, derslik",
+    "book": "Man geht ins Klassenzimmer",
+    "translation": "İnsan sınıfa girer",
+    "tip": "ins = in das; yön bildirdiği için Akkusativ kullanılır."
+  },
+  {
+    "id": "044",
+    "page": 4,
+    "word": "plötzlich",
+    "meaning": "birden, aniden",
+    "book": "und plötzlich hört man den Lehrer sagen",
+    "translation": "ve birden öğretmenin söylediği duyulur",
+    "tip": "Ana cümlede plötzlich zarf, hört çekimli fiil. Hören + nesne + mastar."
+  },
+  {
+    "id": "045",
+    "page": 4,
+    "word": "vor mir",
+    "meaning": "önümde",
+    "book": "Chris Meyers vor mir",
+    "translation": "Chris Meyers önümde",
+    "tip": "vor konum bildirirken Dativ ister: vor mir."
+  },
+  {
+    "id": "046",
+    "page": 4,
+    "word": "hinter mir",
+    "meaning": "arkamda",
+    "book": "Lionel James hinter mir",
+    "translation": "Lionel James arkamda",
+    "tip": "hinter konum bildirirken Dativ ile: hinter mir."
+  },
+  {
+    "id": "047",
+    "page": 5,
+    "word": "zu spät",
+    "meaning": "geç, çok geç",
+    "book": "Jason Brill kam zu spät",
+    "translation": "Jason Brill geç geldi",
+    "tip": "kommen → kam: Präteritum (geçmiş zaman). zu spät = geç."
+  },
+  {
+    "id": "048",
+    "page": 5,
+    "word": "fast",
+    "meaning": "neredeyse",
+    "book": "hätte sich fast neben mich gesetzt",
+    "translation": "neredeyse yanıma oturacaktı",
+    "tip": "fast = neredeyse; hätte ... gesetzt varsayımsal geçmiş durumu."
+  },
+  {
+    "id": "049",
+    "page": 5,
+    "word": "neben mich",
+    "meaning": "yanıma (yön)",
+    "book": "hätte sich fast neben mich gesetzt",
+    "translation": "neredeyse yanıma oturacaktı",
+    "tip": "Hareketin hedefi olduğunda neben + Akkusativ: neben mich. Konumda: neben mir."
+  },
+  {
+    "id": "050",
+    "page": 5,
+    "word": "rechtzeitig",
+    "meaning": "zamanında, vaktinde",
+    "book": "gerade noch rechtzeitig verhindern",
+    "translation": "tam zamanında engellemek",
+    "tip": "rechtzeitig ↔ zu spät zıtlığına dikkat."
+  },
+  {
+    "id": "051",
+    "page": 5,
+    "word": "verhindern",
+    "meaning": "engellemek",
+    "book": "das konnte ich ... verhindern",
+    "translation": "bunu engelleyebildim",
+    "tip": "konnte (können geçmişi) + verhindern (mastar, sonda)."
+  },
+  {
+    "id": "052",
+    "page": 5,
+    "word": "der Platz",
+    "meaning": "yer, koltuk",
+    "book": "Ist der Platz frei?",
+    "translation": "Bu yer boş mu?",
+    "tip": "Ist ... ? Evet/hayır sorusunda çekimli fiil başa gelir."
+  },
+  {
+    "id": "053",
+    "page": 5,
+    "word": "frei",
+    "meaning": "boş, müsait",
+    "book": "Ist der Platz frei?",
+    "translation": "Bu yer boş mu?",
+    "tip": "frei sıfattır, sein sonrası yalın kullanılır. Kafe ve trende çok yararlı."
+  },
+  {
+    "id": "054",
+    "page": 5,
+    "word": "sich setzen",
+    "meaning": "oturmak, yerine geçmek",
+    "book": "In der nächsten Stunde setze ich mich ...",
+    "translation": "Sonraki derste ... oturacağım",
+    "tip": "Dönüşlü: ich setze mich. Şimdiki zaman gelecek anlamı da verebilir."
+  },
+  {
+    "id": "055",
+    "page": 5,
+    "word": "vielleicht",
+    "meaning": "belki",
+    "book": "setze ich mich vielleicht einfach ...",
+    "translation": "belki öylece otururum",
+    "tip": "vielleicht = belki. Fiilin yerini değiştirip cümlede esneklik sağlar."
+  },
+  {
+    "id": "056",
+    "page": 5,
+    "word": "zwischen",
+    "meaning": "arasında",
+    "book": "zwischen ein paar hübsche Mädchen",
+    "translation": "birkaç hoş kızın arasına",
+    "tip": "Burada nereye? sorusunu yanıtlar: zwischen + Akkusativ."
+  },
+  {
+    "id": "057",
+    "page": 5,
+    "word": "hübsch",
+    "meaning": "hoş, güzel",
+    "book": "ein paar hübsche Mädchen",
+    "translation": "birkaç hoş kız",
+    "tip": "hübsche sıfat çekimidir; Mädchen nötr ve burada çoğul."
+  },
+  {
+    "id": "058",
+    "page": 5,
+    "word": "weitergeben",
+    "meaning": "iletmek, aktarmak",
+    "book": "Gibst du das an Sarah weiter?",
+    "translation": "Bunu Sarah'ya iletir misin?",
+    "tip": "Ayrılabilir fiil: du gibst ... weiter. Soru: Gibst du ...?"
+  },
+  {
+    "id": "059",
+    "page": 6,
+    "word": "keine Ahnung",
+    "meaning": "hiçbir fikri olmamak",
+    "book": "ich hab echt KEINE AHNUNG",
+    "translation": "gerçekten hiçbir fikrim yok",
+    "tip": "haben + keine Ahnung. Günlük konuşmada ich hab = ich habe."
+  },
+  {
+    "id": "060",
+    "page": 6,
+    "word": "heutzutage",
+    "meaning": "günümüzde, bugünlerde",
+    "book": "was heutzutage mit den Mädchen los ist",
+    "translation": "günümüzde kızlara ne olduğunu",
+    "tip": "heutzutage genel olarak günümüzü anlatır; heute ise bugün demektir."
+  },
+  {
+    "id": "061",
+    "page": 6,
+    "word": "früher",
+    "meaning": "eskiden",
+    "book": "Früher, in der Grundschule, war alles ganz einfach",
+    "translation": "Eskiden ilkokuldayken her şey çok basitti",
+    "tip": "früher = geçmişte / eskiden. war = sein geçmişi."
+  },
+  {
+    "id": "062",
+    "page": 6,
+    "word": "einfach",
+    "meaning": "basit, kolay",
+    "book": "war alles ganz einfach",
+    "translation": "her şey çok basitti",
+    "tip": "ganz + sıfat, vurguyu artırır: ganz einfach = çok kolay."
+  },
+  {
+    "id": "063",
+    "page": 6,
+    "word": "der Schnellste",
+    "meaning": "en hızlı kişi",
+    "book": "Ronnie McCoy der Schnellste",
+    "translation": "Ronnie McCoy en hızlısıydı",
+    "tip": "schnell → schneller → am schnellsten; der Schnellste isimleşmiş üstünlük."
+  },
+  {
+    "id": "064",
+    "page": 6,
+    "word": "kompliziert",
+    "meaning": "karmaşık",
+    "book": "Heute ist alles viel komplizierter geworden",
+    "translation": "Bugün her şey çok daha karmaşık hâle geldi",
+    "tip": "komplizierter karşılaştırmadır (-er). geworden değişim bildirir."
+  },
+  {
+    "id": "065",
+    "page": 6,
+    "word": "die Klamotten",
+    "meaning": "kıyafetler (konuşma dili)",
+    "book": "die richtigen Klamotten tragen",
+    "translation": "doğru kıyafetleri giymek",
+    "tip": "Klamotten gündelik/konuşma dilidir. tragen = giymek / taşımak."
+  },
+  {
+    "id": "066",
+    "page": 6,
+    "word": "süß",
+    "meaning": "tatlı, sevimli",
+    "book": "einen süßen Po",
+    "translation": "tatlı bir popo",
+    "tip": "süß sıfattır. süßen, Akkusativ eril nesne önünde çekimli hâlidir."
+  },
+  {
+    "id": "067",
+    "page": 6,
+    "word": "beliebt",
+    "meaning": "popüler, sevilen",
+    "book": "Der beliebteste Junge in meiner Klasse",
+    "translation": "Sınıfımdaki en popüler erkek çocuk",
+    "tip": "beliebt = popüler, beliebteste = en popüler."
+  },
+  {
+    "id": "068",
+    "page": 6,
+    "word": "heißen",
+    "meaning": "adı olmak",
+    "book": "heißt Bruce Anderson",
+    "translation": "adı Bruce Anderson",
+    "tip": "ich heiße, du heißt, er heißt çekimlerini hatırla."
+  },
+  {
+    "id": "069",
+    "page": 6,
+    "word": "sich interessieren für",
+    "meaning": "... ile ilgilenmek",
+    "book": "weil ich mich schon IMMER für Mädchen interessiert habe",
+    "translation": "çünkü kızlarla hep ilgilendim",
+    "tip": "sich interessieren für + Akkusativ. Perfekt: habe mich interessiert."
+  },
+  {
+    "id": "070",
+    "page": 6,
+    "word": "passieren",
+    "meaning": "olmak, meydana gelmek",
+    "book": "was passiert ist",
+    "translation": "ne olduğu",
+    "tip": "passieren Perfekt'te sein alır: ist passiert."
+  },
+  {
+    "id": "071",
+    "page": 7,
+    "word": "noch ganz genau",
+    "meaning": "hâlâ çok net biçimde",
+    "book": "Ich weiß noch ganz genau",
+    "translation": "Hâlâ çok iyi hatırlıyorum / biliyorum",
+    "tip": "noch = hâlâ. ganz genau = çok net/tam olarak."
+  },
+  {
+    "id": "072",
+    "page": 7,
+    "word": "eklig",
+    "meaning": "iğrenç, tiksindirici",
+    "book": "MÄDCHEN SIND VOLL EKLIG!",
+    "translation": "Kızlar çok iğrenç!",
+    "tip": "Kitaptaki doğru kelime eklig; voll burada argo vurgu = çok."
+  },
+  {
+    "id": "073",
+    "page": 7,
+    "word": "ich finde",
+    "meaning": "bence, ben ... buluyorum",
+    "book": "Ich finde Mädchen nicht voll eklig!",
+    "translation": "Ben kızları hiç de iğrenç bulmuyorum!",
+    "tip": "finden sadece 'bulmak' değil, görüş belirtirken 'bence' anlamındadır."
+  },
+  {
+    "id": "074",
+    "page": 7,
+    "word": "glauben",
+    "meaning": "inanmak, sanmak",
+    "book": "Aber glaubt ihr, das rechnet mir irgendjemand hoch an?",
+    "translation": "Peki sizce bunu biri benim lehime sayıyor mu?",
+    "tip": "ihr = siz (çoğul). glaubt, glauben fiilinin ihr çekimi."
+  },
+  {
+    "id": "075",
+    "page": 7,
+    "word": "bedeuten",
+    "meaning": "anlamına gelmek",
+    "book": "Und das bedeutet, dass wir ...",
+    "translation": "Ve bu, bizim ... demek",
+    "tip": "das bedeutet, dass ... = bu şu anlama gelir ki ...; dass ile fiil sona gider."
+  },
+  {
+    "id": "076",
+    "page": 7,
+    "word": "streiten",
+    "meaning": "tartışmak, kavga etmek",
+    "book": "um die billigen Plätze streiten können",
+    "translation": "düşük sıralar için çekişebilmek",
+    "tip": "um + Akkusativ. können + streiten, modal+infinitiv."
+  },
+  {
+    "id": "077",
+    "page": 7,
+    "word": "billig",
+    "meaning": "ucuz, düşük değerli",
+    "book": "um die billigen Plätze",
+    "translation": "düşük sıralar için",
+    "tip": "billig genelde ucuz; burada popülerlikte düşük değerdeki sıraları anlatır."
+  },
+  {
+    "id": "078",
+    "page": 7,
+    "word": "die Nachricht",
+    "meaning": "haber, mesaj",
+    "book": "Die gute Nachricht:",
+    "translation": "İyi haber şu:",
+    "tip": "die Nachricht dişildir. die gute Nachricht sıfat + isim yapısıdır."
+  },
+  {
+    "id": "079",
+    "page": 7,
+    "word": "bald",
+    "meaning": "yakında",
+    "book": "Bald werde ich aufrücken",
+    "translation": "Yakında yükselişe geçeceğim",
+    "tip": "werden + mastar = gelecek zaman anlatımı."
+  },
+  {
+    "id": "080",
+    "page": 7,
+    "word": "die Zahnspange",
+    "meaning": "diş teli",
+    "book": "kriegt nächste Woche seine Zahnspange",
+    "translation": "gelecek hafta diş teli takılacak / alacak",
+    "tip": "kriegen günlük dilde bekommen (almak) yerine geçer."
+  },
+  {
+    "id": "081",
+    "page": 8,
+    "word": "immer wieder",
+    "meaning": "tekrar tekrar",
+    "book": "Ich versuche immer wieder",
+    "translation": "Tekrar tekrar deniyorum",
+    "tip": "immer wieder = birçok kez / tekrar tekrar. Tek kelime sanma; kalıp olarak öğren."
+  },
+  {
+    "id": "082",
+    "page": 8,
+    "word": "versuchen",
+    "meaning": "denemek, çabalamak",
+    "book": "Ich versuche immer wieder",
+    "translation": "Tekrar tekrar deniyorum",
+    "tip": "versuchen + zu + Infinitiv kullanılabilir: Ich versuche, Deutsch zu lernen."
+  },
+  {
+    "id": "083",
+    "page": 8,
+    "word": "der Freund",
+    "meaning": "arkadaş, erkek arkadaş",
+    "book": "meinem Freund Rupert",
+    "translation": "arkadaşım Rupert'a",
+    "tip": "mein Freund burada arkadaş anlamında. meinem Freund Dativ'tir."
+  },
+  {
+    "id": "084",
+    "page": 8,
+    "word": "erklären",
+    "meaning": "açıklamak",
+    "book": "meinem Freund Rupert ... zu erklären",
+    "translation": "arkadaşım Rupert'a ... açıklamak",
+    "tip": "jemandem etwas erklären: birine (Dativ) bir şey (Akkusativ) açıklamak."
+  },
+  {
+    "id": "085",
+    "page": 8,
+    "word": "nicht schnallen",
+    "meaning": "anlamamak (konuşma dili)",
+    "book": "aber der schnallt’s einfach nicht",
+    "translation": "ama o bir türlü anlamıyor",
+    "tip": "schnallen konuşma dili: verstehen gibi. 's = es kısaltması."
+  },
+  {
+    "id": "086",
+    "page": 8,
+    "word": "irgendwo",
+    "meaning": "bir yerlerde",
+    "book": "der ist irgendwo auf Platz 150",
+    "translation": "o bir yerlerde 150. sırada",
+    "tip": "irgendwo belirsiz yer; irgendwann belirsiz zaman."
+  },
+  {
+    "id": "087",
+    "page": 8,
+    "word": "der Mittwoch",
+    "meaning": "çarşamba",
+    "book": "Mittwoch",
+    "translation": "Çarşamba",
+    "tip": "Günler eril: der Montag, der Dienstag, der Mittwoch. am Mittwoch = çarşamba günü."
+  },
+  {
+    "id": "088",
+    "page": 8,
+    "word": "Sport haben",
+    "meaning": "beden eğitimi dersi olmak",
+    "book": "Heute hatten wir Sport.",
+    "translation": "Bugün beden eğitimi dersimiz vardı.",
+    "tip": "hatten, haben fiilinin Präteritum hâli: wir hatten."
+  },
+  {
+    "id": "089",
+    "page": 8,
+    "word": "als Allererstes",
+    "meaning": "her şeyden önce, ilk iş olarak",
+    "book": "Als Allererstes habe ich mich ... geschlichen",
+    "translation": "İlk iş olarak ... gizlice gittim",
+    "tip": "als Allererstes zaman/öncelik belirtir. Perfekt: habe ... geschlichen burada hareket fiiliyle kullanılıyor."
+  },
+  {
+    "id": "090",
+    "page": 8,
+    "word": "sich schleichen",
+    "meaning": "sessizce/gizlice gitmek",
+    "book": "zum Basketballplatz geschlichen",
+    "translation": "basketbol sahasına gizlice gittim",
+    "tip": "Kitaptaki habe ich mich ... geschlichen biçimi dönüşlü kullanım. zum = zu dem."
+  },
+  {
+    "id": "091",
+    "page": 8,
+    "word": "nachsehen",
+    "meaning": "kontrol etmek, bakmak",
+    "book": "um nachzusehen, ob der Stinkekäse noch da war",
+    "translation": "pis kokulu peynir hâlâ orada mı diye bakmak için",
+    "tip": "um ... zu + Infinitiv amaç anlatır. ob dolaylı evet/hayır sorusudur."
+  },
+  {
+    "id": "092",
+    "page": 8,
+    "word": "noch da",
+    "meaning": "hâlâ orada",
+    "book": "ob der Stinkekäse noch da war",
+    "translation": "pis kokulu peynirin hâlâ orada olup olmadığı",
+    "tip": "noch = hâlâ; da = orada / mevcut. war = idi."
+  }
+]
